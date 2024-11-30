@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fire Prediction - PyroSence</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flame-icon"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+                <h1>PyroSence</h1>
+            </div>
+            <p>Sense • Alert • Act</p>
+        </div>
+    </header>
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="prediction.html" class="active">Prediction</a></li>
+                <li><a href="detection.html">Detection</a></li>
+                <li><a href="report.html">Reports</a></li>
+            </ul>
+        </div>
+    </nav>
+    <main>
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Predicted Fire Locations</h2>
+                </div>
+                <div class="card-content">
+                    <div class="grid grid-cols-3" id="predicted-locations"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Risk Map</h2>
+                </div>
+                <div class="card-content">
+                    <div id="map" class="map-container"></div>
+                    <div class="mt-4 text-right">
+                        <button id="toggle-heatmap" class="btn btn-secondary">Show Heat Map</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Risk Factors</h2>
+                    </div>
+                    <div class="card-content">
+                        <canvas id="risk-factors-chart" class="chart-container"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Risk Trend</h2>
+                    </div>
+                    <div class="card-content">
+                        <canvas id="risk-trend-chart" class="chart-container"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 PyroSence. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Predicted Locations
+        const predictedLocations = [
+            { lat: 34.0522, lng: -118.2437, name: "Los Angeles", risk: "High" },
+            { lat: 36.7783, lng: -119.4179, name: "Fresno", risk: "Moderate" },
+            { lat: 37.7749, lng: -122.4194, name: "San Francisco", risk: "Low" }
+        ];
+
+        const locationsContainer = document.getElementById('predicted-locations');
+        predictedLocations.forEach(location => {
+            const locationEl = document.createElement('div');
+            locationEl.className = 'p-4 bg-white rounded-lg shadow';
+            locationEl.innerHTML = `
+                <h3 class="font-semibold text-lg">${location.name}</h3>
+                <p>Risk Level: <span class="font-bold ${
+                    location.risk === 'High' ? 'text-red-500' :
+                    location.risk === 'Moderate' ? 'text-yellow-500' : 'text-green-500'
+                }">${location.risk}</span></p>
+            `;
+            locationsContainer.appendChild(locationEl);
+        });
+
+        // Map
+        const map = L.map('map').setView([36.7783, -119.4179], 6);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        let heatmapLayer;
+        document.getElementById('toggle-heatmap').addEventListener('click', function() {
+            if (heatmapLayer) {
+                map.removeLayer(heatmapLayer);
+                heatmapLayer = null;
+                this.textContent = 'Show Heat Map';
+            } else {
+                const heatData = predictedLocations.map(loc => [loc.lat, loc.lng, 0.5]);
+                heatmapLayer = L.heatLayer(heatData, { radius: 25 }).addTo(map);
+                this.textContent = 'Hide Heat Map';
+            }
+        });
+
+        // Risk Factors Chart
+        const riskFactorsCtx = document.getElementById('risk-factors-chart').getContext('2d');
+        new Chart(riskFactorsCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Temperature', 'Wind', 'Humidity', 'Vegetation', 'Terrain'],
+                datasets: [{
+                    label: 'Current Risk Factors',
+                    data: [80, 65, 70, 85, 60],
+                    backgroundColor: 'rgba(255, 87, 34, 0.2)',
+                    borderColor: 'rgb(255, 87, 34)',
+                    pointBackgroundColor: 'rgb(255, 87, 34)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgb(255, 87, 34)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: {
+                            display: false
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 100
+                    }
+                }
+            }
+        });
+
+        // Risk Trend Chart
+        const riskTrendCtx = document.getElementById('risk-trend-chart').getContext('2d');
+        new Chart(riskTrendCtx, {
+            type: 'line',
+            data: {
+                labels: ['00:00', '06:00', '12:00', '18:00', '24:00'],
+                datasets: [{
+                    label: 'Risk Level',
+                    data: [30, 45, 75, 65, 45],
+                    borderColor: 'rgb(255, 87, 34)',
+                    backgroundColor: 'rgba(255, 87, 34, 0.5)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

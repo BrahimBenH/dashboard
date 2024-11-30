@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fire Report - PyroSence</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flame-icon"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+                <h1>PyroSence</h1>
+            </div>
+            <p>Sense • Alert • Act</p>
+        </div>
+    </header>
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="prediction.html">Prediction</a></li>
+                <li><a href="detection.html">Detection</a></li>
+                <li><a href="report.html" class="active">Reports</a></li>
+            </ul>
+        </div>
+    </nav>
+    <main>
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Current Fire Incident</h2>
+                </div>
+                <div class="card-content">
+                    <div class="grid grid-cols-5" id="incident-details"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Fire Map</h2>
+                </div>
+                <div class="card-content">
+                    <div id="map" class="map-container"></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Deployed Units</h2>
+                    </div>
+                    <div class="card-content">
+                        <canvas id="deployed-units-chart" class="chart-container"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Response Timeline</h2>
+                    </div>
+                    <div class="card-content">
+                        <canvas id="response-timeline-chart" class="chart-container"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 PyroSence. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Incident Details
+        const incidentDetails = [
+            { icon: "🗺️", title: "Location", content: "Chréa Forest, Tunisia\n36.5417° N, 8.6875° E" },
+            { icon: "🕒", title: "Time", content: "Started: 2024-01-15 14:30" },
+            { icon: "🔥", title: "Status", content: "Active" },
+            { icon: "⚠️", title: "Affected Area", content: "Current: 2.5 km²\nPredicted: 4.8 km²" },
+            { icon: "⏱️", title: "Estimated Time", content: "45 minutes to predicted state" }
+        ];
+
+        const incidentContainer = document.getElementById('incident-details');
+        incidentDetails.forEach((detail, index) => {
+            const detailEl = document.createElement('button');
+            detailEl.className = 'btn btn-outline h-auto flex flex-col items-start p-4 space-y-2';
+            detailEl.innerHTML = `
+                <span>${detail.icon}</span>
+                <div class="font-semibold">${detail.title}</div>
+                <div class="text-sm text-left hidden">${detail.content}</div>
+            `;
+            detailEl.addEventListener('click', () => {
+                detailEl.querySelector('.text-sm').classList.toggle('hidden');
+            });
+            incidentContainer.appendChild(detailEl);
+        });
+
+        // Map
+        const map = L.map('map').setView([36.5417, 8.6875], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Deployed Units Chart
+        const deployedUnitsCtx = document.getElementById('deployed-units-chart').getContext('2d');
+        new Chart(deployedUnitsCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Firefighters', 'Vehicles', 'Aircraft', 'Drones'],
+                datasets: [{
+                    data: [50, 20, 5, 15],
+                    backgroundColor: ['#1976D2', '#2196F3', '#64B5F6', '#90CAF9']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Deployed Units Distribution'
+                    }
+                }
+            }
+        });
+
+        // Response Timeline Chart
+        const responseTimelineCtx = document.getElementById('response-timeline-chart').getContext('2d');
+        new Chart(responseTimelineCtx, {
+            type: 'line',
+            data: {
+                labels: ['0h', '2h', '4h', '6h', '8h'],
+                datasets: [{
+                    label: 'Response Units',
+                    data: [10, 25, 45, 60, 90],
+                    borderColor: '#1976D2',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Units'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Time Elapsed'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Response Timeline'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
