@@ -434,4 +434,44 @@ nav {
         transform:scale(1.005);
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5); /* Slightly larger shadow on hover */
     }
-    
+    /* Flex container for predicted locations */
+#predicted-locations.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Space between each location card */
+    justify-content: flex-start; /* Align items to the left */
+    width: 100%; /* Ensure container takes up the full width */
+}
+
+/* Individual location card */
+.location-card {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%; /* Make location card fill available space */
+    max-width: 300px; /* Optional: Limit card width for layout balance */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Default shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
+    cursor: pointer; /* Show pointer on hover */
+}
+
+/* Hover effect for location cards */
+.location-card:hover {
+    transform: translateY(-5px); /* Lift the card slightly */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+}
+
+/* Heading for location cards */
+.location-card h3 {
+    font-size: 1.2em;
+    margin: 0;
+    color: #333;
+}
+
+/* Text for location details */
+.location-card p {
+    font-size: 0.9em;
+    color: #555;
+}
+
+
