@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!-- Add the Leaflet Heatmap library -->
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -34,34 +36,37 @@
                 <h2>Prediction Phase</h2>
                 <ul>
                     <li><strong>Advanced algorithms</strong> analyze weather, vegetation, and temperature data.</li>
-                    <li><strong>High-risk zone</strong> are identified based on historical and real-time inputs.</li>
-                    <li><strong>Drones</strong> are prioritized based on target severity and stay on watch in high-priority areas.</li>
+                    <li><strong>High-risk zones</strong> are identified based on <strong>historical</strong> and <strong>real-time</strong> inputs.</li>
+                    <li><strong>Drones</strong> are prioritized based on target severity and stay on watch in <strong>high-priority</strong> areas.</li>
                 </ul>
             </div>
-            
-    
-            <!-- Existing Content -->
+
+            <!-- Updated Card for Predicted Locations -->
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">Predicted Fire Locations</h2>
                 </div>
                 <div class="card-content">
-                    <div class="grid grid-cols-3" id="predicted-locations"></div>
+                    <div id="predicted-locations" class="flex-container">
+                        <!-- Locations will be dynamically added here -->
+                    </div>
                 </div>
             </div>
-    
+
+            <!-- Risk Map -->
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">Risk Map</h2>
                 </div>
                 <div class="card-content">
-                    <div id="map" class="map-container"></div>
+                    <div id="map" class="map-container" style="height: 400px;"></div>
                     <div class="mt-4 text-right">
                         <button id="toggle-heatmap" class="btn btn-secondary">Show Heat Map</button>
                     </div>
                 </div>
             </div>
-    
+
+            <!-- Risk Factors and Trend Charts -->
             <div class="grid grid-cols-2">
                 <div class="card">
                     <div class="card-header">
@@ -82,7 +87,7 @@
             </div>
         </div>
     </main>
-    
+
     <footer>
         <div class="container">
             <p>&copy; 2024 PyroSence. All rights reserved.</p>
@@ -90,33 +95,69 @@
     </footer>
 
     <script>
-        // Predicted Locations
+        // Predicted Locations Data with Probability
         const predictedLocations = [
-            { lat: 34.0522, lng: -118.2437, name: "Los Angeles", risk: "High" },
-            { lat: 36.7783, lng: -119.4179, name: "Fresno", risk: "Moderate" },
-            { lat: 37.7749, lng: -122.4194, name: "San Francisco", risk: "Low" }
+            { lat: 34.0522, lng: -118.2437, name: "Los Angeles", probability: 0.85 }, // 85% probability
+            { lat: 36.7783, lng: -119.4179, name: "Fresno", probability: 0.60 },   // 60% probability
+            { lat: 37.7749, lng: -122.4194, name: "San Francisco", probability: 0.45 } // 45% probability
         ];
 
+        // Render predicted locations into flexbox and change card colors based on probability
         const locationsContainer = document.getElementById('predicted-locations');
         predictedLocations.forEach(location => {
             const locationEl = document.createElement('div');
-            locationEl.className = 'p-4 bg-white rounded-lg shadow';
+            locationEl.className = 'location-card';
+            const probabilityColor = getCardColor(location.probability);
             locationEl.innerHTML = `
                 <h3 class="font-semibold text-lg">${location.name}</h3>
-                <p>Risk Level: <span class="font-bold ${
-                    location.risk === 'High' ? 'text-red-500' :
-                    location.risk === 'Moderate' ? 'text-yellow-500' : 'text-green-500'
-                }">${location.risk}</span></p>
+                <p>Probability: <span class="font-bold">${Math.round(location.probability * 100)}%</span></p>
+                <div class="progress-bar" style="background: ${probabilityColor}; width: ${location.probability * 100}%;"></div>
             `;
             locationsContainer.appendChild(locationEl);
         });
 
-        // Map
+        // Helper function to calculate color based on probability
+        function getCardColor(probability) {
+            if (probability >= 0.75) {
+                return '#d32f2f'; // Red
+            } else if (probability >= 0.50) {
+                return '#ff9800'; // Orange
+            } else {
+                return '#ffeb3b'; // Yellow
+            }
+        }
+
+        // Initialize the map
         const map = L.map('map').setView([36.7783, -119.4179], 6);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
+        // Add markers for each location with color based on probability
+        predictedLocations.forEach(location => {
+            L.marker([location.lat, location.lng])
+                .bindPopup(`<b>${location.name}</b><br>Probability: ${Math.round(location.probability * 100)}%`)
+                .addTo(map)
+                .setIcon(getMarkerIcon(location.probability));
+        });
+
+        // Helper function to get marker color based on probability
+        function getMarkerIcon(probability) {
+            let color;
+            if (probability >= 0.75) {
+                color = '#d32f2f'; // Red
+            } else if (probability >= 0.50) {
+                color = '#ff9800'; // Orange
+            } else {
+                color = '#ffeb3b'; // Yellow
+            }
+            return L.divIcon({
+                className: 'leaflet-div-icon',
+                html: `<div style="background-color: ${color}; width: 20px; height: 20px; border-radius: 50%;"></div>`
+            });
+        }
+
+        // Heatmap Layer with Custom Gradient for Probability
         let heatmapLayer;
         document.getElementById('toggle-heatmap').addEventListener('click', function() {
             if (heatmapLayer) {
@@ -124,8 +165,11 @@
                 heatmapLayer = null;
                 this.textContent = 'Show Heat Map';
             } else {
-                const heatData = predictedLocations.map(loc => [loc.lat, loc.lng, 0.5]);
-                heatmapLayer = L.heatLayer(heatData, { radius: 25 }).addTo(map);
+                const heatData = predictedLocations.map(loc => [loc.lat, loc.lng, loc.probability]);
+                heatmapLayer = L.heatLayer(heatData, {
+                    radius: 25,
+                    gradient: { 0.1: 'yellow', 0.5: 'orange', 1: 'red' }
+                }).addTo(map);
                 this.textContent = 'Hide Heat Map';
             }
         });
@@ -152,9 +196,7 @@
                 maintainAspectRatio: false,
                 scales: {
                     r: {
-                        angleLines: {
-                            display: false
-                        },
+                        angleLines: { display: false },
                         suggestedMin: 0,
                         suggestedMax: 100
                     }
@@ -162,7 +204,7 @@
             }
         });
 
-        // Risk Trend Chart
+        // Risk Trend Chart (Line Chart)
         const riskTrendCtx = document.getElementById('risk-trend-chart').getContext('2d');
         new Chart(riskTrendCtx, {
             type: 'line',

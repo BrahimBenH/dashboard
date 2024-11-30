@@ -227,23 +227,7 @@ footer {
     width: 100%;
 }
 
-/* Navbar */
-.navbar {
-    background: #333;
-    padding: 10px;
-}
 
-.navbar ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-}
-
-.navbar li {
-    margin: 0 15px;
-}
 /* Drone Fleet Status Flexbox */
 #drone-status-grid {
     display: flex;

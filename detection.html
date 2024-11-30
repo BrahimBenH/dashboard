@@ -93,6 +93,49 @@
             width: 100%;
             border-radius: 8px;
         }
+        /* Drone Fleet Status Flexbox */
+#drone-status-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: nowrap; /* Prevent wrapping */
+    justify-content: flex-start; /* Align items to the left */
+    overflow-x: auto; /* Allow horizontal scrolling */
+    margin-top: 20px;
+    padding: 10px; /* Add padding to prevent cards from touching edges */
+}
+
+.drone-status-card {
+    flex-shrink: 0; /* Prevent cards from shrinking */
+    width: 250px; /* Fixed width */
+    height: 300px; /* Fixed height */
+    min-width: 230px; /* Minimum width to prevent squishing */
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    padding: 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Space out content inside the card */
+}
+
+.drone-status-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.drone-status-card h3 {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+.drone-status-card p {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+
     </style>
 </head>
 <body>
