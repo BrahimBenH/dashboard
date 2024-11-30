@@ -16,28 +16,54 @@
             <p>Sense • Alert • Act</p>
         </div>
     </header>
-    <nav>
-        <div class="container">
-            <ul>
-
-                <li><a href="prediction.html">Prediction</a></li>
-                <li><a href="detection.html">Detection</a></li>
-                <li><a href="report.html">Reports</a></li>
-            </ul>
-        </div>
-    </nav>
+   
     <main>
         <div class="container">
             <div class="hero">
-                <h1>Welcome to PyroSence</h1>
-                <p>Advanced fire monitoring and prediction system for enhanced safety and rapid response.</p>
-                <div class="cta-buttons">
-                    <a href="prediction.html" class="btn btn-primary">View Predictions</a>
-                    <a href="detection.html" class="btn btn-secondary">Monitor Detection</a>
+                <h1>Welcome to<br>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flame-icon"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>PyroSence</h1>
+                </h1>
+                <p>Advanced fire monitoring and prediction system for enhanced safety and rapid response.</p></div>
+                <div class="detection-phase" id="prediction-phase" onclick="navigateTo('prediction.html')">
+                    <h2>Prediction Phase</h2>
+                    <ul>
+                        <li><strong>Advanced algorithms</strong> analyze weather, vegetation, and temperature data.</li>
+                        <li><strong>High-risk zones</strong> are identified based on <strong>historical</strong> and <strong>real-time</strong> inputs.</li>
+                        <li><strong>Drones</strong> are prioritized based on target severity and stay on watch in <strong>high-priority</strong> areas.</li>
+                    </ul>
                 </div>
+                
+                <div class="detection-phase" id="detection-phase" onclick="navigateTo('detection.html')">
+                    <h2>Detection Phase</h2>
+                    <ul>
+                        <li><strong>Drones </strong>are deployed based on predictions.</li>
+                        <li>They navigate to <strong>high-risk zones</strong> automatically.</li>
+                        <li><strong>Sensors</strong> confirm fire presence in real-time.</li>
+                        <li><strong>Feedback</strong> is sent back to validate predictions.</li>
+                    </ul>
+                </div>
+                
+                <div class="detection-phase" id="fire-propagation" onclick="navigateTo('report.html')">
+                    <h2>Fire Propagation Prediction</h2>
+                    <ul>
+                        <li>Estimates <strong>fire spread rate</strong> based on <strong>wind</strong>, <strong>temperature</strong>, and <strong>vegetation</strong>.</li>
+                        <li>Predicts <strong>affected areas</strong> based on <strong>fire direction</strong> and <strong>propagation patterns</strong>.</li>
+                        <li>Calculates <strong>duration</strong> using <strong>intensity</strong> and <strong>weather conditions</strong>.</li>
+                    </ul>
+                </div>
+                
+                  
+                
+                
             </div>
         </div>
     </main>
+    <script>
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+        </script>
+        
     <footer>
         <div class="container">
             <p>&copy; 2024 PyroSence. All rights reserved.</p>

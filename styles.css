@@ -118,15 +118,69 @@ main {
     font-weight: bold;
     transition: background-color 0.3s;
 }
-
+.btn-secondary {
+    background-color: #134d0f;
+    color: #fff;
+    
+}
 .btn-primary {
-    background-color: #FFA500;
+    background-color: #333;
     color: #fff;
 }
 
-.btn-secondary {
+.btn-tertiary {
     background-color: #333;
     color: #fff;
+}
+/* Style for the hero section */
+.hero {
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(to bottom, #ffccbc, #ffe0b2); /* Warm gradient background */
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin: 40px auto;
+    max-width: 800px; /* Center and limit the width */
+}
+
+/* Style for the hero title */
+.hero h1 {
+    font-size: 2.8rem;
+    font-weight: bold;
+    color: #ff5722; /* Flame color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* Stack "Welcome to" and "PyroSence" vertically */
+    line-height: 1.3;
+    margin-bottom: 20px;
+}
+
+/* Style for the logo title */
+.hero h1 .flame-icon {
+    margin-top: 10px;
+    width: 50px;
+    height: 50px;
+    fill: #ff5722; /* Same color as text */
+}
+
+/* Subtitle text */
+.hero p {
+    font-size: 1.2rem;
+    color: #555; /* Subtle text color */
+    margin-top: 20px;
+    line-height: 1.6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
 }
 
 .btn:hover {
@@ -347,3 +401,37 @@ a{
     text-decoration: none;
 }
 
+nav {
+    background-color: #333;
+    padding: 10px 0; /* Increased padding for a larger navbar height */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)}
+    #next-report {
+        width: 100%; /* Make the button as wide as the container */
+        padding: 10px; /* Adjust padding to make the button taller */
+        font-size: 1.1rem; /* Optional: increase font size for better readability */
+        border-radius: 5px; /* Optional: rounded corners */
+        background-color: #FFA500; /* Button color */
+        color: #fff; /* Text color */
+        text-align: center; /* Center text */
+       
+        cursor: pointer; /* Pointer cursor on hover */
+        transition: background-color 0.3s ease; /* Smooth transition on hover */
+    }
+    
+    #next-report:hover {
+        background-color: #ff8c00; /* Darken button color on hover */
+    }
+    .detection-phase {
+       
+        border-radius: 10px;
+        padding: 20px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle default shadow */
+    }
+    
+    .detection-phase:hover {
+        transform:scale(1.005);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5); /* Slightly larger shadow on hover */
+    }
+    
