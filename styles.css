@@ -21,14 +21,14 @@ body {
     margin: 0 auto;
     padding: 0 20px;
 }
-
 /* Header */
 header {
     background: linear-gradient(to right, #852f12, #481c0d);
     color: #fff;
     padding: 1rem 0;
 }
-.h1{
+
+.h1 {
     color: #fff;
     text-decoration: none;
 }
@@ -42,14 +42,32 @@ header .container {
 .logo {
     display: flex;
     align-items: center;
+    animation: glowPulse 1.5s infinite alternate ease-in-out; /* Apply glowing pulse animation to the entire logo container */
 }
 
 .logo h1 {
     margin-left: 10px;
+    font-size: 2rem; /* Adjust size if needed */
+    animation: glowPulse 1.5s infinite alternate ease-in-out; /* Apply glowing pulse animation to the h1 text */
 }
 
+/* Flame icon */
 .flame-icon {
     color: #FFA500;
+    width: 40px;
+    height: 40px;
+    margin-left: -20px;
+    animation: glowPulse 1.5s infinite alternate ease-in-out; /* Apply glowing pulse animation */
+}
+
+/* Glow pulse animation */
+@keyframes glowPulse {
+    0% {
+        text-shadow: 0 0 5px rgba(255, 165, 0, 0.5), 0 0 10px rgba(255, 165, 0, 0.3); /* Initial glow */
+    }
+    100% {
+        text-shadow: 0 0 15px rgba(255, 165, 0, 0.8), 0 0 30px rgba(255, 165, 0, 0.6); /* Stronger glow */
+    }
 }
 
 /* Navigation */
@@ -76,7 +94,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    background-color: #672c0c99;
+    background-color: #ee590999;
 }
 
 nav ul li a.active {
@@ -122,10 +140,6 @@ main {
     background-color: #134d0f;
     color: #fff;
     
-}
-.btn-primary {
-    background-color: #333;
-    color: #fff;
 }
 
 .btn-tertiary {
@@ -233,7 +247,7 @@ main {
 }
 /* Style for the PyroSense text */
 .pyrosense {
-    font-size:xx-large;
+    font-size:4rem;
 
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
@@ -256,18 +270,13 @@ main {
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
     .pyrosense {
-        font-size: 2.4rem;
+        font-size: 3rem;
     }
 }
 
 
-/* Button hover effect */
-.btn:hover {
-    opacity: 0.9;
-    transform: scale(1.05); /* Subtle grow effect on hover */
-}
 
 /* Keyframe for title glow effect */
 @keyframes glowEffect {
@@ -478,13 +487,30 @@ footer {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
 }
 
+/* Shiny Title Effect on Header */
 .detection-phase h2 {
     font-size: 2em;
     font-weight: bold;
     color: #ea580c; /* Highlight title with a red accent */
     margin-bottom: 15px;
     text-align: center;
+    position: relative;
+    animation: shineTitle 5s ease-in-out infinite; /* Apply shiny effect to header */
 }
+
+/* Shine Effect for Title Animation */
+@keyframes shineTitle {
+    0% {
+        text-shadow: 0 0 5px rgba(255, 165, 0, 0.3), 0 0 10px rgba(255, 165, 0, 0.2);
+    }
+    50% {
+        text-shadow: 0 0 15px rgba(255, 165, 0, 0.6), 0 0 30px rgba(255, 165, 0, 0.5);
+    }
+    100% {
+        text-shadow: 0 0 5px rgba(255, 165, 0, 0.3), 0 0 10px rgba(255, 165, 0, 0.2);
+    }
+}
+
 
 .detection-phase ul {
     list-style: none;
@@ -499,7 +525,7 @@ footer {
 }
 
 .detection-phase ul li strong {
-    color: #f5891d; /* Highlight keywords in orange */
+    color: #ea580c; /* Highlight keywords in orange */
     font-weight: bold;
 }
 
@@ -515,26 +541,30 @@ a{
 
 nav {
     background-color: #111827;
-    padding: 10px 0; /* Increased padding for a larger navbar height */
+    padding: 15px 0; /* Increased padding for a larger navbar height */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)}
     #next-report {
+       
         width: 100%; /* Full width button */
-        padding: 12px 20px; /* Increased padding for better spacing */
-        font-size: 1.2rem; /* Slightly larger font for better readability */
-        font-weight: bold; /* Make the text bold */
-        border-radius: 8px; /* Rounded corners for a smoother look */
-        background: linear-gradient(135deg, #241d16 0%, #111827 100%); /* Subtle gradient background */
-        color: #ea580c; /* Primary accent color for text */
+        padding: 12px 20px; /* Padding for spacing */
+        font-size: 1.2rem; /* Slightly larger font for readability */
+        font-weight: bold; /* Bold text */
+        border-radius: 8px; /* Rounded corners */
+        background: linear-gradient(135deg, #49443f 0%, #2d3036 100%); /* Subtle gradient */
+        color: #ea580c; /* Accent color */
         text-align: center; /* Center text */
-        border: 2px solid transparent; /* Add border */
-        cursor: pointer; /* Pointer cursor on hover */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06); /* Subtle shadow */
-        transition: all 0.3s ease; /* Smooth transition for hover effects */
+        border: 2px solid transparent; /* Transparent border */
+        cursor: pointer; /* Pointer cursor */
+        margin-bottom: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        transition: box-shadow 0.3s ease; /* Smooth transition for box-shadow */
     }
     
     #next-report:hover {
-        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1); /* Enhanced shadow on hover */
+        opacity: 90%;
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow on hover */
     }
+    
     
     .detection-phase {
        
