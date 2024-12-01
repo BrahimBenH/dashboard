@@ -491,7 +491,7 @@ footer {
 .detection-phase h2 {
     font-size: 2em;
     font-weight: bold;
-    color: #ea580c; /* Highlight title with a red accent */
+    color: #18a722; /* Highlight title with a red accent */
     margin-bottom: 15px;
     text-align: center;
     position: relative;
@@ -499,17 +499,6 @@ footer {
 }
 
 /* Shine Effect for Title Animation */
-@keyframes shineTitle {
-    0% {
-        text-shadow: 0 0 5px rgba(255, 165, 0, 0.3), 0 0 10px rgba(255, 165, 0, 0.2);
-    }
-    50% {
-        text-shadow: 0 0 15px rgba(255, 165, 0, 0.6), 0 0 30px rgba(255, 165, 0, 0.5);
-    }
-    100% {
-        text-shadow: 0 0 5px rgba(255, 165, 0, 0.3), 0 0 10px rgba(255, 165, 0, 0.2);
-    }
-}
 
 
 .detection-phase ul {
