@@ -23,7 +23,7 @@ body {
 }
 /* Header */
 header {
-    background: linear-gradient(to right, #852f12, #481c0d);
+    background: linear-gradient(to right, #9d3711, #622510);
     color: #fff;
     padding: 1rem 0;
 }
@@ -149,7 +149,7 @@ main {
 .hero {
     text-align: center;
     padding: 60px 20px;
-    background: linear-gradient(145deg, #863012, #421404); /* Smooth diagonal gradient */
+    background: linear-gradient(145deg, #6c1f06, #953515, #662811); /* Smooth diagonal gradient */
     border-radius: 12px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
     margin: 50px auto;
@@ -491,7 +491,7 @@ footer {
 .detection-phase h2 {
     font-size: 2em;
     font-weight: bold;
-    color: #18a722; /* Highlight title with a red accent */
+    color: #00920a; /* Highlight title with a red accent */
     margin-bottom: 15px;
     text-align: center;
     position: relative;
