@@ -539,7 +539,7 @@ nav {
         font-size: 1.2rem; /* Slightly larger font for readability */
         font-weight: bold; /* Bold text */
         border-radius: 8px; /* Rounded corners */
-        background: linear-gradient(135deg, #49443f 0%, #2d3036 100%); /* Subtle gradient */
+        background: linear-gradient(135deg, #565c78 0%, #283a5f 100%); /* Subtle gradient */
         color: #ea580c; /* Accent color */
         text-align: center; /* Center text */
         border: 2px solid transparent; /* Transparent border */
@@ -608,4 +608,7 @@ nav {
     color: #555;
 }
 
-
+header p{
+color: #dcb07b;
+padding-top: 10px;
+}
