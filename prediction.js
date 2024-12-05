@@ -1,8 +1,8 @@
   // Predicted Locations Data with Probability
   const predictedLocations = [
-    { lat: 34.8869, lng: 9.5375, name: "Safe Zone", probability: 0.85 }, // 85% probability
-    { lat: 36.2719, lng: 9.0138, name: "Fire Zone", probability: 0.45 }, // 45% probability
-    { lat: 35.8262, lng: 8.6349, name: "Safe Zone 2", probability: 0.70 } // 70% probability
+    { lat: 34.8869, lng: 9.5375, name: "El Kef", probability: 0.85 }, // 85% probability
+    { lat: 36.2719, lng: 9.0138, name: "Kasserine", probability: 0.45 }, // 45% probability
+    { lat: 35.8262, lng: 8.6349, name: "Sidi Bouzid", probability: 0.70 } // 70% probability
 ];
 
     // Render predicted locations into flexbox and change card colors based on probability
