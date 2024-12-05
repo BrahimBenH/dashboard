@@ -79,7 +79,7 @@
             labels: ['Firefighters', 'Vehicles', 'Aircraft', 'Drones'],
             datasets: [{
                 data: [50, 20, 5, 15],
-                backgroundColor: ['#1976D2', '#2196F3', '#64B5F6', '#90CAF9']
+                backgroundColor: ['#FF5722', '#FF7043', '#FF8A65', '#FFAB91']
             }]
         },
         options: {
